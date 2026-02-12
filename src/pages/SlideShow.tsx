@@ -2,15 +2,17 @@ import Button from "../components/Button";
 import Card from "../components/Card";
 import Carousel from "../components/Carousel";
 import type { CarouselItem } from "../components/CarouselCard";
+import ReasonsStepper from "../components/ReasonsStepper";
 
 interface SlideShowProps {
   nickname: string;
+  reasons: string[];
   getSlides: () => CarouselItem[]; // [{ image, caption }]
   onNext?: () => void;    // optional if you're routing from parent
   onBack?: () => void;
 }
 
-export default function SlideShow({ nickname, getSlides, onNext, onBack }: SlideShowProps) {
+export default function SlideShow({ nickname, reasons, getSlides, onNext, onBack }: Readonly<SlideShowProps>) {
 
   const slides = getSlides();
 
@@ -28,6 +30,9 @@ export default function SlideShow({ nickname, getSlides, onNext, onBack }: Slide
 
         <div className="mt-6">
           <Carousel items={slides} />
+        </div>
+        <div className="mt-6">
+          <ReasonsStepper reasons={reasons}/>
         </div>
 
         <div className="mt-7 flex flex-col items-center gap-3">

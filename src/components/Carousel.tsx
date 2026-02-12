@@ -1,58 +1,44 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import CarouselCard, { CarouselItem } from "./CarouselCard";
 
-type CarouselProps = {
+type AutoCarouselProps = {
   items: CarouselItem[];
-  autoPlayMs?: number; // set to 0/undefined to disable
+  autoPlayMs?: number; // disable with 0/undefined
   className?: string;
 };
 
-function clamp(n: number, min: number, max: number) {
-  return Math.max(min, Math.min(max, n));
-}
-
-export default function Carousel({ items, autoPlayMs = 4500, className = "" }: CarouselProps) {
+export default function AutoCarousel({
+  items,
+  autoPlayMs = 4500,
+  className = "",
+}: Readonly<AutoCarouselProps>) {
   const [index, setIndex] = useState(0);
   const trackRef = useRef<HTMLDivElement | null>(null);
 
   const count = items.length;
   const canSlide = count > 1;
 
+  console.log('Items: ', items);
+
   const prefersReducedMotion = useMemo(() => {
-    if (typeof window === "undefined") return true;
-    return window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
+    if (typeof globalThis === "undefined") return true;
+    return globalThis.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
   }, []);
 
-  const goTo = (next: number) => setIndex(clamp(next, 0, count - 1));
-  const next = () => goTo(index + 1);
-  const prev = () => goTo(index - 1);
-
-  // keyboard support
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (!canSlide) return;
-      if (e.key === "ArrowRight") next();
-      if (e.key === "ArrowLeft") prev();
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index, canSlide]);
-
-  // autoplay
+  // autoplay only
   useEffect(() => {
     if (!canSlide) return;
     if (!autoPlayMs || autoPlayMs < 1200) return;
     if (prefersReducedMotion) return;
 
-    const id = window.setInterval(() => {
+    const id = globalThis.setInterval(() => {
       setIndex((i) => (i + 1) % count);
     }, autoPlayMs);
 
-    return () => window.clearInterval(id);
+    return () => globalThis.clearInterval(id);
   }, [autoPlayMs, canSlide, count, prefersReducedMotion]);
 
-  // Touch swipe
+  // optional: swipe to change image (mobile-friendly) WITHOUT exposing buttons
   useEffect(() => {
     const el = trackRef.current;
     if (!el || !canSlide) return;
@@ -75,11 +61,10 @@ export default function Carousel({ items, autoPlayMs = 4500, className = "" }: C
       const dx = e.clientX - startX;
       const dy = e.clientY - startY;
 
-      // ignore mostly vertical gestures
       if (Math.abs(dy) > Math.abs(dx)) return;
 
-      if (dx < -40) next();
-      if (dx > 40) prev();
+      if (dx < -40) setIndex((i) => (i + 1) % count);
+      if (dx > 40) setIndex((i) => (i - 1 + count) % count);
     };
 
     el.addEventListener("pointerdown", onPointerDown);
@@ -89,8 +74,7 @@ export default function Carousel({ items, autoPlayMs = 4500, className = "" }: C
       el.removeEventListener("pointerdown", onPointerDown);
       el.removeEventListener("pointerup", onPointerUp);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index, canSlide]);
+  }, [canSlide, count]);
 
   if (!items.length) {
     return (
@@ -103,7 +87,6 @@ export default function Carousel({ items, autoPlayMs = 4500, className = "" }: C
   return (
     <section className={["w-full", className].join(" ")}>
       <div className="relative">
-        {/* Track */}
         <div
           ref={trackRef}
           className="overflow-hidden rounded-3xl"
@@ -124,51 +107,7 @@ export default function Carousel({ items, autoPlayMs = 4500, className = "" }: C
             ))}
           </div>
         </div>
-
-        {/* Controls */}
-        {canSlide && (
-          <>
-            <button
-              type="button"
-              onClick={prev}
-              aria-label="Previous slide"
-              className="absolute left-3 top-[40%] -translate-y-1/2 rounded-full bg-white/80 backdrop-blur px-3 py-2 border border-pink-200 shadow hover:bg-white"
-            >
-              ‹
-            </button>
-
-            <button
-              type="button"
-              onClick={next}
-              aria-label="Next slide"
-              className="absolute right-3 top-[40%] -translate-y-1/2 rounded-full bg-white/80 backdrop-blur px-3 py-2 border border-pink-200 shadow hover:bg-white"
-            >
-              ›
-            </button>
-          </>
-        )}
       </div>
-
-      {/* Dots */}
-      {canSlide && (
-        <div className="mt-4 flex items-center justify-center gap-2">
-          {items.map((_, i) => {
-            const active = i === index;
-            return (
-              <button
-                key={i}
-                type="button"
-                onClick={() => goTo(i)}
-                aria-label={`Go to slide ${i + 1}`}
-                className={[
-                  "h-2.5 rounded-full transition-all border border-pink-200",
-                  active ? "w-8 bg-pink-500" : "w-2.5 bg-white/80 hover:bg-white",
-                ].join(" ")}
-              />
-            );
-          })}
-        </div>
-      )}
     </section>
   );
 }
