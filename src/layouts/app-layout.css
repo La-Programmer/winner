@@ -1,0 +1,20 @@
+.app-root {
+  min-height: 100vh;
+  width: 100%;
+  background-image: url('/val-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  display: flex;
+  justify-content: center;
+}
+
+/* content wrapper so text stays readable */
+.app-content {
+  width: 100%;
+  max-width: 480px; /* mobile-first Valentine experience */
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.35); /* readability layer */
+}

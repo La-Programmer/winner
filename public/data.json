@@ -1,0 +1,67 @@
+{
+  "valentines": {
+      "id": 1,
+      "recipient": {
+        "name": "Winner",
+        "nickname": "Wiii"
+      },
+      "reasons": [
+        "Your beauty is unquantifiable",
+        "You make me want to seek and love God more",
+        "You drive me to become the best I can be",
+        "I love the way you call me Fine Man",
+        "Your smile is like light to everyone who sees it",
+        "You are compassionate",
+        "You are completely honest",
+        "Your intelligence is beautiful",
+        "Your joy is contagious",
+        "You do not fear the expression of yourself or others",
+        "You are strong",
+        "You are courageous",
+        "You are trustworthy",
+        "I love to see you laugh",
+        "Your happiness makes me happy",
+        "I love the sound of your voice",
+        "I love listening to you",
+        "I love the vibe around you",
+        "I love your body, for it is a temple of God😉",
+        "I love you in your joy",
+        "I love you in your sadness",
+        "I love you in your anger",
+        "I love you in your disappointment",
+        "I love you in your success",
+        "I love you in your failure",
+        "I love your discipline",
+        "I love your commitment",
+        "I love your elegance",
+        "I love your light",
+        "I love your shine",
+        "I love the potential within you and want to see it manifest",
+        "I love everything God wants you to become",
+        "I love the way you pray",
+        "I love your patience",
+        "I love your eyes and always want to look into them",
+        "I love your lips",
+        "Have you seen your body??",
+        "Who wouldn't love you?"
+      ],
+      "message": {
+        "intro": "My Beautiful Darling",
+        "body": [
+          "On this day of love I appriciate you my princess.",
+          "I am grateful for you being in my life.",
+          "You are a beautiful blessing from God and I do not take you for granted.",
+          "Your smile, your laugh, your mind, your personality, I love them all.",
+          "Every version of the future I imagine looks better because you are in it."
+        ],
+        "closing": [
+          "Thank you for being you.",
+          "For choosing me.",
+          "For staying.",
+          "Happy Valentine’s Day.",
+          "My heart is yours."
+        ]
+      },
+      "createdAt": "2026-02-06"
+  }
+}

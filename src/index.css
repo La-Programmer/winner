@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.font-script {
+  font-family: 'Dancing Script', cursive;
+}
+
+.font-romantic {
+  font-family: 'Playfair Display', serif;
+}
+
+@keyframes shy-shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
+.animate-shy-shake {
+  animation: shy-shake 0.4s ease-in-out;
+}
